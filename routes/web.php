@@ -51,9 +51,19 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
     Route::resource('/clients', ClientController::class)->except(['create', 'edit']);
     Route::get('/demandes-offres', [OfferRequestController::class, 'index'])->name('offers.index');
+    Route::post('/demandes-offres', [OfferRequestController::class, 'store'])->name('offers.store');
+    Route::patch('/demandes-offres/{offer}', [OfferRequestController::class, 'update'])->name('offers.update');
+    Route::delete('/demandes-offres/{offer}', [OfferRequestController::class, 'destroy'])->name('offers.destroy');
+
     Route::get('/agenda', [AgendaController::class, 'index'])->name('agenda.index');
+    Route::post('/agenda/events', [AgendaController::class, 'store'])->name('agenda.events.store');
+    Route::patch('/agenda/events/{event}', [AgendaController::class, 'update'])->name('agenda.events.update');
+    Route::delete('/agenda/events/{event}', [AgendaController::class, 'destroy'])->name('agenda.events.destroy');
+
     Route::get('/missions', [MissionController::class, 'index'])->name('missions.index');
+    Route::post('/missions', [MissionController::class, 'store'])->name('missions.store');
     Route::patch('/missions/{mission}/status', [MissionController::class, 'updateStatus'])->name('missions.status');
+
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
     Route::post('/chat', [ChatController::class, 'store'])->name('chat.store');
     Route::post('/chat/{chatConversation}/messages', [ChatController::class, 'sendMessage'])->name('chat.messages.store');

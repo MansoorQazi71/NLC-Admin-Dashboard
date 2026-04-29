@@ -26,7 +26,7 @@ class ChatController extends Controller
         $selectedConversation = null;
         $showCreateForm = $request->boolean('new') || $request->session()->has('errors');
         $messages = null;
-        $receivers = User::query()->where('id', '!=', $user->id)->orderBy('name')->get();
+        $receivers = User::query()->orderBy('name')->get();
 
         if ($request->filled('conversation')) {
             $conversationId = (int) $request->integer('conversation');

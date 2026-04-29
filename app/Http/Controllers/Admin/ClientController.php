@@ -15,6 +15,12 @@ class ClientController extends Controller
         $search = request('search');
         $typeFilter = request('type');
 
+        $showCreateForm = request()->boolean('new') || request()->session()->has('errors');
+        $editingClient = null;
+        if (request()->filled('edit')) {
+            $editingClient = Client::query()->whereKey((int) request('edit'))->first();
+        }
+
         $clients = Client::query()
             ->when($search, fn ($q) => $q->where(function ($sub) use ($search) {
                 $sub->where('full_name', 'like', "%{$search}%")
@@ -33,6 +39,8 @@ class ClientController extends Controller
             'totalClients' => Client::count(),
             'activeContracts' => Client::where('status', 'actif')->where('type', 'client')->count(),
             'prospects' => Client::where('type', 'prospect')->count(),
+            'showCreateForm' => $showCreateForm,
+            'editingClient' => $editingClient,
         ]);
     }
 

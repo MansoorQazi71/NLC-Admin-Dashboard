@@ -8,7 +8,9 @@
             <h1 class="top-title mb-1">Gestion des clients</h1>
             <p class="top-subtitle mb-0">Gerez vos clients, prospects et contrats</p>
         </div>
-        <a class="btn btn-success rounded-pill px-4"><i class="bi bi-plus-lg me-1"></i>Nouveau client</a>
+        <a class="btn btn-success rounded-pill px-4 d-flex align-items-center gap-2" href="{{ route('admin.clients.index', ['new' => 1] + array_filter(['search' => $search, 'type' => $typeFilter])) }}">
+            <i class="bi bi-plus-lg"></i><span>Nouveau client</span>
+        </a>
     </div>
 
     <div class="page-card p-3 p-md-4">
@@ -55,6 +57,103 @@
             <span class="badge text-bg-light">{{ $clients->total() }} resultat(s)</span>
         </div>
 
+        @if($showCreateForm)
+            <div class="page-card p-4 mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="mb-0 d-flex align-items-center gap-2"><i class="bi bi-plus-circle text-success"></i><span>Nouveau client</span></h4>
+                    <a class="btn btn-outline-secondary btn-sm rounded-pill" href="{{ route('admin.clients.index', array_filter(['search' => $search, 'type' => $typeFilter])) }}">Fermer</a>
+                </div>
+                <form method="POST" action="{{ route('admin.clients.store') }}">
+                    @csrf
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Nom complet</label>
+                            <input name="full_name" class="form-control" value="{{ old('full_name') }}" maxlength="255" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Email</label>
+                            <input name="email" type="email" class="form-control" value="{{ old('email') }}" maxlength="255">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Telephone</label>
+                            <input name="phone" class="form-control" value="{{ old('phone') }}" maxlength="50">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Type</label>
+                            <select name="type" class="form-select" required>
+                                @foreach(['client'=>'Client','prospect'=>'Prospect','professionnel'=>'Professionnel'] as $k => $label)
+                                    <option value="{{ $k }}" @selected(old('type') === $k)>{{ $label }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Statut</label>
+                            <select name="status" class="form-select" required>
+                                <option value="actif" @selected(old('status') === 'actif')>Actif</option>
+                                <option value="inactif" @selected(old('status') === 'inactif')>Inactif</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Notes</label>
+                            <textarea name="notes" class="form-control" rows="3">{{ old('notes') }}</textarea>
+                        </div>
+                    </div>
+                    <div class="mt-3 d-flex justify-content-end">
+                        <button class="btn btn-success rounded-pill" type="submit">Creer</button>
+                    </div>
+                </form>
+            </div>
+        @endif
+
+        @if($editingClient)
+            <div class="page-card p-4 mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="mb-0 d-flex align-items-center gap-2"><i class="bi bi-pencil text-primary"></i><span>Modifier client</span></h4>
+                    <a class="btn btn-outline-secondary btn-sm rounded-pill" href="{{ route('admin.clients.index', array_filter(['search' => $search, 'type' => $typeFilter])) }}">Fermer</a>
+                </div>
+                <form method="POST" action="{{ route('admin.clients.update', $editingClient) }}">
+                    @csrf
+                    @method('PATCH')
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Nom complet</label>
+                            <input name="full_name" class="form-control" value="{{ old('full_name', $editingClient->full_name) }}" maxlength="255" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Email</label>
+                            <input name="email" type="email" class="form-control" value="{{ old('email', $editingClient->email) }}" maxlength="255">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Telephone</label>
+                            <input name="phone" class="form-control" value="{{ old('phone', $editingClient->phone) }}" maxlength="50">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Type</label>
+                            <select name="type" class="form-select" required>
+                                @foreach(['client'=>'Client','prospect'=>'Prospect','professionnel'=>'Professionnel'] as $k => $label)
+                                    <option value="{{ $k }}" @selected(old('type', $editingClient->type) === $k)>{{ $label }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Statut</label>
+                            <select name="status" class="form-select" required>
+                                <option value="actif" @selected(old('status', $editingClient->status) === 'actif')>Actif</option>
+                                <option value="inactif" @selected(old('status', $editingClient->status) === 'inactif')>Inactif</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Notes</label>
+                            <textarea name="notes" class="form-control" rows="3">{{ old('notes', $editingClient->notes) }}</textarea>
+                        </div>
+                    </div>
+                    <div class="mt-3 d-flex justify-content-end">
+                        <button class="btn btn-primary rounded-pill" type="submit">Enregistrer</button>
+                    </div>
+                </form>
+            </div>
+        @endif
+
         <div class="table-responsive">
             <table class="table align-middle">
                 <thead>
@@ -74,9 +173,19 @@
                         <td>{{ $client->phone }}</td>
                         <td><span class="badge rounded-pill text-bg-success-subtle text-success">{{ ucfirst($client->type) }}</span></td>
                         <td class="text-end">
-                            <a href="{{ route('admin.clients.show', $client) }}" class="btn btn-sm btn-outline-secondary rounded-pill">
-                                <i class="bi bi-eye me-1"></i>Voir
+                            <a href="{{ route('admin.clients.show', $client) }}" class="btn btn-sm btn-outline-secondary rounded-pill d-flex align-items-center gap-2">
+                                <i class="bi bi-eye"></i><span>Voir</span>
                             </a>
+                            <a href="{{ route('admin.clients.index', ['edit' => $client->id] + array_filter(['search' => $search, 'type' => $typeFilter])) }}" class="btn btn-sm btn-outline-primary rounded-pill ms-1 d-flex align-items-center gap-1 px-2">
+                                <i class="bi bi-pencil"></i><span>Edit</span>
+                            </a>
+                            <form method="POST" action="{{ route('admin.clients.destroy', $client) }}" class="d-inline ms-1" onsubmit="return confirm('Supprimer definitivement ce client ?');">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-sm btn-outline-danger rounded-pill d-flex align-items-center gap-2" type="submit">
+                                    <i class="bi bi-trash3"></i><span>Delete</span>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 @empty
@@ -87,4 +196,5 @@
         </div>
         <div class="mt-3">{{ $clients->links('pagination::bootstrap-5') }}</div>
     </div>
+
 @endsection

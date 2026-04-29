@@ -62,6 +62,31 @@ class AdminDashboardTest extends TestCase
         $this->assertSoftDeleted('clients', ['id' => $client->id]);
     }
 
+    public function test_clients_index_renders(): void
+    {
+        $admin = $this->admin();
+
+        $this->actingAs($admin)->get(route('admin.clients.index'))
+            ->assertOk();
+    }
+
+    public function test_offers_index_renders(): void
+    {
+        $admin = $this->admin();
+
+        $this->actingAs($admin)->get(route('admin.offers.index'))
+            ->assertOk();
+    }
+
+    public function test_missions_and_agenda_and_chat_pages_render(): void
+    {
+        $admin = $this->admin();
+
+        $this->actingAs($admin)->get(route('admin.missions.index'))->assertOk();
+        $this->actingAs($admin)->get(route('admin.agenda.index'))->assertOk();
+        $this->actingAs($admin)->get(route('admin.chat.index'))->assertOk();
+    }
+
     public function test_chat_conversation_can_be_created(): void
     {
         $admin = $this->admin();

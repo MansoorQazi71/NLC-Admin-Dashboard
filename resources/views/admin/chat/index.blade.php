@@ -8,8 +8,8 @@
             <h1 class="top-title mb-1">Chat</h1>
             <p class="top-subtitle mb-0">Communiquez avec votre equipe et vos clients</p>
         </div>
-        <a href="{{ route('admin.chat.index', ['new' => 1]) }}" class="btn btn-dark rounded-pill px-4">
-            <i class="bi bi-plus-lg me-1"></i>Nouvelle conversation
+        <a href="{{ route('admin.chat.index', ['new' => 1]) }}" class="btn btn-dark rounded-pill px-4 d-flex align-items-center gap-2">
+            <i class="bi bi-plus-lg"></i><span>Nouvelle conversation</span>
         </a>
     </div>
 
