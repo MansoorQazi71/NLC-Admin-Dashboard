@@ -51,7 +51,7 @@ class AgendaController extends Controller
         $event = AgendaEvent::query()->create([
             'title' => $validated['title'],
             'event_date' => $validated['event_date'],
-            'color' => $validated['color'] ?? '#4F46E5',
+            'color' => $validated['color'] ?? '#69727d',
             'label' => $validated['label'] ?? null,
         ]);
 

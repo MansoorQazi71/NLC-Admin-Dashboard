@@ -33,7 +33,7 @@
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">Couleur</label>
-                        <input name="color" class="form-control" value="{{ old('color') ?? '#4F46E5' }}" placeholder="#4F46E5" maxlength="20">
+                        <input name="color" class="form-control" value="{{ old('color') ?? '#69727d' }}" placeholder="#69727d" maxlength="20">
                     </div>
                     <div class="col-12">
                         <label class="form-label">Label (optionnel)</label>
@@ -68,7 +68,7 @@
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">Couleur</label>
-                        <input name="color" class="form-control" value="{{ old('color', $editingEvent->color) }}" placeholder="#4F46E5" maxlength="20">
+                        <input name="color" class="form-control" value="{{ old('color', $editingEvent->color) }}" placeholder="#69727d" maxlength="20">
                     </div>
                     <div class="col-12">
                         <label class="form-label">Label (optionnel)</label>
@@ -141,16 +141,18 @@
                             </td>
                             <td>{{ $ev->label }}</td>
                             <td class="text-end">
-                                <a class="btn btn-sm btn-outline-primary rounded-pill d-flex align-items-center gap-1 px-2" href="{{ route('admin.agenda.index', ['month' => $current->month, 'year' => $current->year, 'edit' => $ev->id]) }}">
+                                <div class="admin-table-actions justify-content-end">
+                                <a class="btn btn-outline-primary rounded-pill btn-admin-action" href="{{ route('admin.agenda.index', ['month' => $current->month, 'year' => $current->year, 'edit' => $ev->id]) }}">
                                     <i class="bi bi-pencil"></i><span>Edit</span>
                                 </a>
-                                <form method="POST" action="{{ route('admin.agenda.events.destroy', $ev) }}" class="d-inline" onsubmit="return confirm('Supprimer definitivement cet evenement ?');">
+                                <form method="POST" action="{{ route('admin.agenda.events.destroy', $ev) }}" onsubmit="return confirm('Supprimer definitivement cet evenement ?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-sm btn-outline-danger rounded-pill d-flex align-items-center gap-2" type="submit">
+                                    <button class="btn btn-outline-danger rounded-pill btn-admin-action" type="submit">
                                         <i class="bi bi-trash3"></i><span>Delete</span>
                                     </button>
                                 </form>
+                                </div>
                             </td>
                         </tr>
                     @empty

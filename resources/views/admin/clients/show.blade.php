@@ -43,7 +43,7 @@
                             <div class="text-muted small">Relation: {{ $link->relation_type }}</div>
                         </div>
                         @if($link->relatedClient)
-                            <a class="btn btn-sm btn-outline-primary rounded-pill d-flex align-items-center gap-2" href="{{ route('admin.clients.show', $link->relatedClient) }}">
+                            <a class="btn btn-outline-primary rounded-pill btn-admin-action" href="{{ route('admin.clients.show', $link->relatedClient) }}">
                                 <i class="bi bi-eye"></i><span>Voir le dossier</span>
                             </a>
                         @endif

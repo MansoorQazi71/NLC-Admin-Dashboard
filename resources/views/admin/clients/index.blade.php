@@ -173,19 +173,21 @@
                         <td>{{ $client->phone }}</td>
                         <td><span class="badge rounded-pill text-bg-success-subtle text-success">{{ ucfirst($client->type) }}</span></td>
                         <td class="text-end">
-                            <a href="{{ route('admin.clients.show', $client) }}" class="btn btn-sm btn-outline-secondary rounded-pill d-flex align-items-center gap-2">
+                            <div class="admin-table-actions justify-content-end">
+                            <a href="{{ route('admin.clients.show', $client) }}" class="btn btn-outline-secondary rounded-pill btn-admin-action">
                                 <i class="bi bi-eye"></i><span>Voir</span>
                             </a>
-                            <a href="{{ route('admin.clients.index', ['edit' => $client->id] + array_filter(['search' => $search, 'type' => $typeFilter])) }}" class="btn btn-sm btn-outline-primary rounded-pill ms-1 d-flex align-items-center gap-1 px-2">
+                            <a href="{{ route('admin.clients.index', ['edit' => $client->id] + array_filter(['search' => $search, 'type' => $typeFilter])) }}" class="btn btn-outline-primary rounded-pill btn-admin-action">
                                 <i class="bi bi-pencil"></i><span>Edit</span>
                             </a>
-                            <form method="POST" action="{{ route('admin.clients.destroy', $client) }}" class="d-inline ms-1" onsubmit="return confirm('Supprimer definitivement ce client ?');">
+                            <form method="POST" action="{{ route('admin.clients.destroy', $client) }}" onsubmit="return confirm('Supprimer definitivement ce client ?');">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-sm btn-outline-danger rounded-pill d-flex align-items-center gap-2" type="submit">
+                                <button class="btn btn-outline-danger rounded-pill btn-admin-action" type="submit">
                                     <i class="bi bi-trash3"></i><span>Delete</span>
                                 </button>
                             </form>
+                            </div>
                         </td>
                     </tr>
                 @empty

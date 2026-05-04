@@ -20,7 +20,7 @@ class AgendaEventFactory extends Factory
         return [
             'title' => fake()->sentence(2),
             'event_date' => fake()->dateTimeBetween('-10 days', '+20 days')->format('Y-m-d'),
-            'color' => fake()->randomElement(['#4F46E5', '#0891B2', '#DC2626', '#059669']),
+            'color' => fake()->randomElement(['#69727d', '#5cb85c', '#5bc0de', '#f0ad4e', '#d9534f']),
             'label' => fake()->randomElement(['Visite', 'Rappel', 'Contrat', 'Suivi']),
         ];
     }

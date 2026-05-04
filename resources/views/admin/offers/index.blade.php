@@ -130,7 +130,7 @@
         @else
             <div class="table-responsive">
             <table class="table align-middle">
-                <thead><tr><th>Titre</th><th>Client</th><th>Statut</th></tr></thead>
+                <thead><tr><th>Titre</th><th>Client</th><th>Statut</th><th class="text-end">Action</th></tr></thead>
                 <tbody>
                     @foreach($offers as $offer)
                         <tr>
@@ -138,16 +138,18 @@
                             <td>{{ $offer->client?->full_name ?? '-' }}</td>
                             <td><span class="badge rounded-pill text-bg-warning">{{ str($offer->status)->replace('_', ' ') }}</span></td>
                             <td class="text-end">
-                                <a class="btn btn-sm btn-outline-primary rounded-pill d-flex align-items-center gap-1 px-2" href="{{ route('admin.offers.index', ['edit' => $offer->id]) }}">
+                                <div class="admin-table-actions justify-content-end">
+                                <a class="btn btn-outline-primary rounded-pill btn-admin-action" href="{{ route('admin.offers.index', ['edit' => $offer->id]) }}">
                                     <i class="bi bi-pencil"></i><span>Edit</span>
                                 </a>
-                                <form method="POST" action="{{ route('admin.offers.destroy', $offer) }}" class="d-inline" onsubmit="return confirm('Supprimer definitivement cette demande ?');">
+                                <form method="POST" action="{{ route('admin.offers.destroy', $offer) }}" onsubmit="return confirm('Supprimer definitivement cette demande ?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-sm btn-outline-danger rounded-pill d-flex align-items-center gap-2" type="submit">
+                                    <button class="btn btn-outline-danger rounded-pill btn-admin-action" type="submit">
                                         <i class="bi bi-trash3"></i><span>Delete</span>
                                     </button>
                                 </form>
+                                </div>
                             </td>
                         </tr>
                     @endforeach

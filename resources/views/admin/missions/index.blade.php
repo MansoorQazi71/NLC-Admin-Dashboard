@@ -98,7 +98,7 @@
                                         <option value="{{ $s }}" @selected($mission->status===$s)>{{ str($s)->replace('_', ' ') }}</option>
                                     @endforeach
                                 </select>
-                                <button class="btn btn-sm btn-outline-primary rounded-pill">Maj</button>
+                                <button type="submit" class="btn btn-outline-primary rounded-pill btn-admin-action">Maj</button>
                             </form>
                         <!-- </div> -->
                     </div>
